@@ -1,0 +1,181 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+  font-family: 'Roboto Mono', monospace;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  background-color: rgb(230, 230, 230);
+  padding: 10px 30px;
+}
+.logo{
+  text-decoration: none;
+  color: rgb(37, 37, 37);
+  font-weight: 600;
+}
+.nav {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  justify-content: space-between;
+}
+.navItem{
+  margin-left: 20px;
+}
+.navItem .navLink{
+  text-decoration: none;
+  color: rgb(37, 37, 37);
+  cursor: pointer;
+  font-weight: 600;
+}
+.navLink:hover{
+  color: rgb(14, 13, 13);
+  border-bottom: 1px solid rgb(14, 13, 13);
+}
+.container {
+  width: 100%;
+  padding: 0 30px;
+}
+.card {
+  position: relative;
+  border: 1px solid #3a3a3a;
+  border-radius: 10px;
+  padding: 0 10px;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.card:hover {
+  -webkit-box-shadow: 5px 5px 15px -10px #000000; 
+  box-shadow: 5px 5px 15px -10px #000000;
+}
+
+.cardTitle {
+  font-size: large;
+  font-weight: 900;
+  color: #000;
+}
+.cardDate {
+  font-size: small;
+  color: rgb(37, 37, 37);
+}
+.link{
+  text-decoration: none;
+  color: rgb(37, 37, 37);
+}
+.postHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.delete-btn{
+  background-color: rgb(37, 37, 37);
+  border: none;
+  color:white;
+  padding: 10px 20px;
+  font-size: medium;
+  font-weight: 600;
+  margin-left: 10px;
+  cursor: pointer;
+}
+.delete-btn:hover {
+  background-color: rgb(22, 22, 22);
+}
+.postTitle{
+  font-size: large;
+}
+.postDate {
+  font-size: small;
+  padding-bottom: 20px;
+}
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+.inputGroup label {
+  font-size: medium;
+  font-weight: 600;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.inputGroup input {
+  padding: 10px 20px;
+  font-size: medium;
+  outline: none;
+}
+.inputGroup textarea {
+  padding: 10px 20px;
+  font-size: medium;
+  outline: none;
+}
+.mt-2 {
+  margin-top: 20px;
+}
+.btn {
+  padding: 10px 50px;
+  border: none;
+  font-size: medium;
+  font-weight: 600;
+  background-color: #747474;
+  color: white;
+  -webkit-box-shadow: 5px 5px 15px -12px #000000; 
+  box-shadow: 5px 5px 15px -12px #000000;
+}
+.btn:hover {
+  background-color: #575757;
+  cursor: pointer;
+}
+.errorValidate {
+  color: red;
+  font-size: small;
+}
+
+.login {
+  padding-bottom: 20px;
+  width: calc(80vw);
+  margin: 0 auto;
+  margin-top: 50px;
+}
+.register {
+  padding-bottom: 20px;
+  width: calc(80vw);
+  margin: 0 auto;
+  margin-top: 50px;
+}
+@media (min-width: 576px){
+  .login {
+    width: 40vw;
+  }
+  .register {
+    width: 40vw;
+  }
+}
+.logoutBtn {
+  font-size: medium;
+  font-weight: 600;
+  text-transform: capitalize;
+  /* border: none; */
+  background-color: rgb(37, 37, 37);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.logoutBtn:hover {
+  background-color: rgb(24, 24, 24);
+  color:white;
+}
