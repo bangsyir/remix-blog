@@ -1,8 +1,6 @@
-import { ActionFunction, Form, Link, redirect, useTransition } from "remix";
+import { Form, Link} from "remix";
 
 const Navbar = ({user}:{user:any}) => {
-  const transition = useTransition()
-  const state: "idle" | "submitting" = transition.submission ? "submitting" : "idle" 
   return (
     <nav className="navbar" style={{fontFamily: "Roboto, sans-serif"}}>
       <Link to="/" className="logo">
@@ -20,12 +18,8 @@ const Navbar = ({user}:{user:any}) => {
             <li className="navItem">
               <Form method="post" action="/logout">
                 <button type="submit" className="logoutBtn">
-                  {state === "submitting" ? "loged out.." : (
-                    <>
-                      {user.username}, Logout
-                    </>
-                  )}
-                  </button>
+                  {user.username}, Logout
+                </button>
               </Form>
             </li>
           </>
