@@ -52,7 +52,7 @@ export const action:ActionFunction = async({request}) => {
     return badRequest({fieldErrors, fields})
   }
 
-  const user = await login({username, password})
+  const user = await login({username: username.toLocaleLowerCase(), password})
   if(!user) {
     return badRequest({
       fields,
