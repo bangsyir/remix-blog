@@ -4,11 +4,14 @@ import {
   Form, 
   json, 
   Link, 
+  LoaderFunction, 
   redirect, 
   useActionData, 
+  useLoaderData, 
   useTransition } from "remix";
   import type {Post} from "@prisma/client"
   import {db} from "../../utils/db.server"
+import { getUserId, getUserSession } from "~/utils/session.server";
 
 // title validate
 function validateTitle(title: string) {
@@ -41,6 +44,7 @@ export const action:ActionFunction = async({request}) => {
   const form = await request.formData();
   const title = form.get("title")
   const description = form.get("description")
+  const userId = await getUserId(request)
   if(
     typeof title !== 'string' || 
     typeof description !== 'string'
@@ -59,16 +63,23 @@ export const action:ActionFunction = async({request}) => {
   }
 
   // save fields to database
-  const post = await db.post.create({data: {...fields}})
+  const post = await db.post.create({data: {...fields, authorId: Number(userId)}})
   return redirect(`/posts/${post.id}`)
 }
 
+export const loader:LoaderFunction = async({request}) => {
+  const session = await getUserSession(request)
+  const userId = session.get("userId")
+  if (!userId) return redirect('/login')
+  return {userId}
+} 
+
 const New = () => {
   const actionData = useActionData<ActionData>()
+  const data = useLoaderData()
   const transition = useTransition()
-  const state: "idle" | "submitting" = transition.submission ? "submitting" : "idle"
+  const upload: "idle" | "submitting" = transition.submission ? "submitting" : "idle"
   const [read, setRead] = useState<string>("")
-
   let titleRef = useRef<HTMLInputElement>(null)
   let descRef = useRef<HTMLTextAreaElement>(null)
   useEffect(() => {
@@ -88,12 +99,13 @@ const New = () => {
         <Link to="/posts" className="link">Back</Link>
       </div>
       <hr />
-      {state === "submitting" ? null : actionData?.formError ? (
+      {upload === "submitting" ? null : actionData?.formError ? (
         <span className="errorValidate">
           {actionData.formError}
         </span>
       ): null}
       <Form method="post">
+        <input type="hidden" name="userId" defaultValue={data.userId}/>
         <div className="inputGroup">
           <label htmlFor="title">Title</label>
           <input 
@@ -108,7 +120,7 @@ const New = () => {
           }
           />
         </div>
-        {state === "submitting" ? null : actionData?.fieldErrors?.title ? (
+        {upload === "submitting" ? null : actionData?.fieldErrors?.title ? (
           <span className="errorValidate" role="alert" id="title-error">
             {actionData.fieldErrors.title}
           </span>
@@ -129,14 +141,14 @@ const New = () => {
           }
           />
         </div>
-        {state === "submitting" ? null : actionData?.fieldErrors?.description ? (
+        {upload === "submitting" ? null : actionData?.fieldErrors?.description ? (
           <span className="errorValidate" role="alert" id="description-error">
             {actionData.fieldErrors.description}
           </span>
         ): null}
         <div>
           <button className="btn mt-2" type="submit">
-            {state === "submitting" ? "Loading..." : "Submit"}
+            {upload === "submitting" ? "Loading..." : "Submit"}
           </button>
         </div>
       </Form>
