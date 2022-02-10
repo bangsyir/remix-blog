@@ -3,7 +3,13 @@ import { createCookieSessionStorage, redirect } from "remix"
 import { db } from "./db.server"
 
 type LoginForm = {
+  username?: string;
+  password: string;
+}
+type RegisterForm = {
   username: string;
+  fullname: string;
+  email: string;
   password: string;
 }
 
@@ -16,6 +22,26 @@ export async function login({username, password}: LoginForm) {
   if(!isCorrectPassword) return null 
 
   return user
+}
+
+export async function register({username, fullname, email, password}:RegisterForm) {
+  const checkUser = await db.user.findUnique({
+    where: {
+      email
+    }
+  })
+  if(checkUser) return null 
+  const passwordHash = await bcrypt.hash(password,10)
+
+  await db.user.create({
+    data: {
+      username: username,
+      fullname: fullname,
+      email: email,
+      passwordHash: passwordHash
+    }
+  })
+  return redirect('/login')
 }
 
 const sessionSecret = process.env.SESSION_SECRET 
