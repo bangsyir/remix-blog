@@ -20,7 +20,7 @@ async function seed() {
     data: {
       username: "bangsyir",
       fullname: "bangsyir",
-      email: "bangsyir@gmail.com",
+      email: "test@gmail.com",
       passwordHash: passwordHash
     }
   })
